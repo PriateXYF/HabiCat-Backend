@@ -16,19 +16,21 @@ def check_env(env_list):
 
 # 获取国区当前时间
 def get_china_now():
-	tz = pytz.timezone('Asia/Shanghai')
-	now_time = datetime.fromtimestamp(int(time.time()), tz)
-	return now_time
+	cst = pytz.timezone('Asia/Shanghai')  # 东八区
+	t = datetime.fromtimestamp(int(time.time()), cst)
+	return t
 
 # 获取美区当前时间
 def get_us_now():
-	tz = timezone('US/Eastern')
-	# now_time = datetime.utcnow().replace(tzinfo=timezone.utc).astimezone(timezone(timedelta(hours=0)))
-	now_time = datetime.fromtimestamp(int(time.time()), tz)
-	return now_time
+	utc = pytz.timezone('UTC')
+	t = datetime.fromtimestamp(int(time.time()), utc)
+	return t
 
 # 判断两个datetime是否为同一天
 def is_same_day(time1, time2):
+	cst = pytz.timezone('Asia/Shanghai')
+	time1 = time1.astimezone(cst)
+	time2 = time2.astimezone(cst)
 	if time1.year != time2.year or time1.month != time2.month or time1.day != time2.day:
 		return False
 	return True

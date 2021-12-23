@@ -7,7 +7,7 @@ from flask import Flask, jsonify, request
 from flask import render_template
 from flask_sockets import Sockets
 from leancloud import LeanCloudError
-
+import common
 from views.todos import todos_view
 from bbdc.api import BBDC
 from forest.api import Forest

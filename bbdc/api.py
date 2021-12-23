@@ -137,7 +137,6 @@ class BBDC(object):
 		today_BBDC.set('info', DiffUser.get_diff_info())
 		today_BBDC.set('date', now)
 		today_BBDC.save()
-	
 	# 获取今日已背单词与今日已导入单词差异数量
 	def get_today_lc_diff(self):
 		latest_lc_data = self.get_latest_lc_data()
