@@ -18,11 +18,27 @@
     * 将分支或提交设置为 `main`
     * 若部署失败请**重复尝试**，或选择 `不使用缓存` 。
 6. 部署成功后使用你的域名即可正常访问。
+7. 在运行过程中如果出现任何问题可以自行前往 `云引擎` -> `WEB` -> `日志` 中定位。
+
+## 其他配置
+
+应用的配置都在 `数据存储` -> `结构化数据` -> `Projects` 中。其可修改的字段含义分别为:
+
+* habitName : Habitica习惯的名字。
+* isShow : 是否显示该模块。
+* isOpen : 该模块是否加密。
+* password : 模块解锁的密码。
 
 ## 集成
 
 * 不背单词 [说明](docs/bbdc.md)
 * Forest [说明](docs/forest.md)
+
+## 其他
+
+* 如果有需要支持的网站或APP可以在 issue 中提出。
+* 如果部署出现问题自行前往 `云引擎` -> `WEB` -> `日志` 中定位。
+* 赞助方式 [![](https://donate.virts.app/images/pay/all.jpg)](https://donate.virts.app)
 
 ## 预览
 
