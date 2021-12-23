@@ -7,7 +7,7 @@
 * **BBDC_USERID** `必填` : 你的不背单词的用户ID。可在不背单词APP中的 `设置` 最底部看到。
 * **BBDC_STEP** `选填` : 每背完多少单词触发一次 Habitica 习惯。默认为 **20** 。
 
-![-w317](media/16402483869685.jpg)
+![-w317](https://p0.meituan.net/dpgroup/98ea0b0766782535addf2c3e077c528c76081.png)
 
 
 ## Habit
@@ -18,7 +18,7 @@
 
 **需要在 Habitica 上先创建习惯，如果不存在则程序无法正确运行。**
 
-![不背单词](media/16402483195833.jpg)
+![不背单词](https://p0.meituan.net/dpgroup/a7a1d55d736bb95c60b2a48dc4b582d4117390.png)
 
 ## 云函数
 
@@ -30,4 +30,4 @@
 
 由于 LeanCloud 的时区是 US ，因此推荐设置 Cron 表达式为 `0 30 0-16 * * *` (从 8:30 - 24:30 每隔一小时检测一次)
 
-![-w1040](media/16402493556497.jpg)
+![-w1040](https://p0.meituan.net/dpgroup/402b77e89f7f8ae0734001430b06480171039.png)

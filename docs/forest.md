@@ -16,7 +16,7 @@
 
 **需要在 Habitica 上先创建习惯，如果不存在则程序无法正确运行。**
 
-![-w831](media/16402494467779.jpg)
+![media/16402494467779.jpg](https://p1.meituan.net/dpgroup/243388143d2f53be0174e113223de97a93574.png)
 
 
 
@@ -30,4 +30,4 @@
 
 由于 LeanCloud 的时区是 US ，因此推荐设置 Cron 表达式为 `0 0 0-16 * * *` (从 8:00 - 24:00 每隔一小时检测一次)
 
-![-w1028](media/16402493867566.jpg)
+![media/16402493867566.jpg](https://p0.meituan.net/dpgroup/805aabc96bbb3b8678c8e0946d3eb4c368392.png)
