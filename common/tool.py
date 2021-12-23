@@ -51,29 +51,3 @@ def send_push_plus(title, info):
 		return True, push_json['msg']
 	else:
 		return False, push_json['msg']
-
-# 获取全部lc项目
-def get_lc_projects():
-	query = leancloud.Query('Projects')
-	lc_list = query.find()
-	data_list = []
-	for item in lc_list:
-		data = {
-			'id' : item.id,
-			'latestUpdate' : item.get('latestUpdate'),
-			'isOpen' : item.get('isOpen'),
-			'name' : item.get('name'),
-			'path' : item.get('path'),
-			'category' : item.get('category'),
-			'isShow' : item.get('isShow'),
-			'habitName' : item.get('habitName'),
-			'password' : item.get('password'),
-		}
-		data_list.append(data)
-	return data_list
-
-def get_habit_name_by_project_name(project_name):
-	query = leancloud.Query('Projects')
-	query.equal_to('name', project_name)
-	habit = query.first()
-	return habit.get('habitName')
