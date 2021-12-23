@@ -73,10 +73,12 @@ class BBDC(object):
 			latest_data = query.first()
 		except LeanCloudError as e:
 			if e.code == 101:
-				User = Habitica().get_habitica_user()
-				words_data = self.get_today_words_data()
-				self.set_lc_data(words_data, User, User, User - User)
-				return self.get_latest_lc_data()
+				return {
+					'date' : now,
+					'learnNum' : 0,
+					'reviewNum' : 0,
+					'total' : 0
+				}
 		data = {
 			'date' : latest_data.get('date'),
 			'learnNum' : latest_data.get('learnNum'),
