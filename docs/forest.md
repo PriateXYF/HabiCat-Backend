@@ -2,7 +2,7 @@
 
 ## 环境变量
 
-> `云引擎` ->  `设置` 处的环境变量。
+> `云引擎` ->  `设置` 处的环境变量。设置完成后请重启应用。
 
 * **FOREST_SECRET** `必填` : Forest App 中的 cookie(remember_token) ([**具体内容**](get-forest-cookie.md))
 * **FOREST_AREA** `必填` : Forest App 所在的服务器。(`china` / `global`)
