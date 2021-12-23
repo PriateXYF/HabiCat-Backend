@@ -23,3 +23,9 @@
 
 * 不背单词 [说明](docs/bbdc.md)
 * Forest [说明](docs/forest.md)
+
+## 预览
+
+![](https://p0.meituan.net/dpgroup/53b8c5f7876cc73d2c6882b8bc85405a185033.png)
+![](https://p0.meituan.net/dpgroup/d425fe6b248a70a988a4d6340cfe227d273651.png)
+![](https://p1.meituan.net/dpgroup/bf49e29871562693cfc0dbbfc64e7c39259524.png)
