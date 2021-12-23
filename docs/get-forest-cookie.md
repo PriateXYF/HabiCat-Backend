@@ -1,0 +1,34 @@
+# 获取 Forest Cookie
+
+> Chrome拓展与移动App都可获得Cookie。
+
+## chrome 拓展
+
+* 打开 [forestapp.cc](https://forestapp.cc/) 并下载Chrome拓展程序。
+* 登陆你的账户。
+* 点击 `选项`
+
+![](media/16400564763354.jpg)
+
+
+* 点击 `检查`
+
+![](media/16400570403247.jpg)
+
+1. 在弹出的 DevTool中选择 `网络(Network)`
+2. 在拓展中点击 `与Forest App同步`
+3. 在DevTool中搜索 : `remember_token`
+4. 选择任意一个请求
+5. 在请求的标头中即可获得 `FOREST_SECRET`
+
+![-w1320](media/16400577565174.jpg)
+
+## IOS 或 Android APP
+
+* 下载 Forest App 并登陆.
+* 打开一个抓包App。
+* 打开 Forest App 并点击 `云端同步`
+* 在抓包工具中寻找 Cookie:**remember_token**
+
+
+![-w1270](media/16400590615034.jpg)
