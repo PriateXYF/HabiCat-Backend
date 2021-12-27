@@ -12,11 +12,12 @@ from views.todos import todos_view
 from bbdc.api import BBDC
 from forest.api import Forest
 from lc.api import LC
+from github.api import GitHub
 app = Flask(__name__, static_url_path='', static_folder='templates', template_folder='templates')
 
 # 开启跨域,用于debug
-# from flask_cors import CORS
-# CORS(app, supports_credentials=True)
+from flask_cors import CORS
+CORS(app, supports_credentials=True)
 
 sockets = Sockets(app)
 
@@ -53,6 +54,16 @@ def get_forest_data():
 	datas = forest.get_lc_data(page)
 	return jsonify(datas)
 
+@app.route('/api/github', methods=['POST'])
+def get_github_data():
+	github = GitHub()
+	try:
+		page = request.get_json()['page']
+	except Exception:
+		page = 0
+	datas = github.get_lc_data(page)
+	return jsonify(datas)
+
 # 触发一次不背单词更新
 @app.route('/api/doBBDC', methods=['POST'])
 def do_BBDC():
@@ -69,6 +80,17 @@ def do_BBDC():
 def do_Forest():
 	forest = Forest()
 	datas, numbers = forest.habitica_daily_export()
+	res = {
+		"numbers" : numbers,
+		"msg" : datas
+	}
+	return jsonify(res)
+
+# 触发一次 Github 更新
+@app.route('/api/doGitHub', methods=['POST'])
+def do_GitHub():
+	github = GitHub()
+	datas, numbers = github.habitica_daily_export()
 	res = {
 		"numbers" : numbers,
 		"msg" : datas
