@@ -16,8 +16,8 @@ from github.api import GitHub
 app = Flask(__name__, static_url_path='', static_folder='templates', template_folder='templates')
 
 # 开启跨域,用于debug
-from flask_cors import CORS
-CORS(app, supports_credentials=True)
+# from flask_cors import CORS
+# CORS(app, supports_credentials=True)
 
 sockets = Sockets(app)
 
