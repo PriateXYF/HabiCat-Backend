@@ -24,3 +24,29 @@ def init_forest_project():
 	forest_lc.set("password", "123456")
 	forest_lc.set("path", "forest")
 	forest_lc.save()
+
+# 初始化 GitHub
+def init_github_project():
+	GitHubLC = leancloud.Object.extend("Projects")
+	github_lc = GitHubLC()
+	github_lc.set("category", "网页端")
+	github_lc.set("habitName", "github")
+	github_lc.set("isOpen", True)
+	github_lc.set("isShow", True)
+	github_lc.set("name", "github")
+	github_lc.set("password", "123456")
+	github_lc.set("path", "github")
+	github_lc.save()
+
+# 初始化 Reading
+def init_reading_project():
+	ReadingLC = leancloud.Object.extend("Projects")
+	reading_lc = ReadingLC()
+	reading_lc.set("category", "小应用")
+	reading_lc.set("habitName", "reading")
+	reading_lc.set("isOpen", True)
+	reading_lc.set("isShow", True)
+	reading_lc.set("name", "reading")
+	reading_lc.set("password", "123456")
+	github_lc.set("path", "github")
+	github_lc.save()

@@ -80,3 +80,5 @@ class LC(object):
 		if not self.has_class("Projects"):
 			projects.init_BBDC_project()
 			projects.init_forest_project()
+			projects.init_github_project()
+			projects.init_reading_project()
