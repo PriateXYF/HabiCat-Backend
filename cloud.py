@@ -9,6 +9,7 @@ from github import github_daily_habit as GitHubCloud
 from bbdc import after_BBDC_save as BBDCAfter
 from forest import after_forest_save as ForestAfter
 from github import after_github_save as GitHubAfter
+from reading import after_reading_save as ReadingAfter
 
 engine = Engine()
 
@@ -41,3 +42,8 @@ def after_forest(_forest):
 @engine.after_save('GitHub')
 def after_github(_github):
 	return GitHubAfter(_github)
+
+# Reading hook
+@engine.after_save('Reading')
+def after_reading(_reading):
+	return GitHubAfter(_reading)
