@@ -33,7 +33,7 @@ def index():
 	return render_template('index.html')
 
 # 获取不背单词接口
-@app.route('/api/BBDC', methods=['POST'])
+@app.route('/api/bbdc', methods=['POST'])
 def get_BBDC_data():
 	bbdc = BBDC()
 	try:

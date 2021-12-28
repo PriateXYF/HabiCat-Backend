@@ -91,8 +91,8 @@ class BBDC(object):
 		now = common.get_china_now()
 		query = leancloud.Query('BBDC')
 		query.descending('date')
-		query.limit(20)
-		query.skip(page * 20)
+		query.limit(10)
+		query.skip(page * 10)
 		lc_list = None
 		try:
 			lc_list = query.find()
