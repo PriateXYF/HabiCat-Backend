@@ -23,6 +23,7 @@ class LC(object):
 		self.init_projects()
 		self.init_class('BBDC')
 		self.init_class('Forest')
+		self.init_class('Reading')
 		self.init_class('GitHub')
 	def get_lc_projects(self):
 		query = leancloud.Query('Projects')

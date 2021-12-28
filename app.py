@@ -12,12 +12,13 @@ from views.todos import todos_view
 from bbdc.api import BBDC
 from forest.api import Forest
 from lc.api import LC
+from reading.api import Reading
 from github.api import GitHub
 app = Flask(__name__, static_url_path='', static_folder='templates', template_folder='templates')
 
 # 开启跨域,用于debug
-# from flask_cors import CORS
-# CORS(app, supports_credentials=True)
+from flask_cors import CORS
+CORS(app, supports_credentials=True)
 
 sockets = Sockets(app)
 
@@ -64,6 +65,16 @@ def get_github_data():
 	datas = github.get_lc_data(page)
 	return jsonify(datas)
 
+@app.route('/api/reading', methods=['POST'])
+def get_reading_data():
+	reading = Reading()
+	try:
+		page = request.get_json()['page']
+	except Exception:
+		page = 0
+	datas = reading.get_lc_data(page)
+	return jsonify(datas)
+
 # 触发一次不背单词更新
 @app.route('/api/doBBDC', methods=['POST'])
 def do_BBDC():
@@ -91,6 +102,27 @@ def do_Forest():
 def do_GitHub():
 	github = GitHub()
 	datas, numbers = github.habitica_daily_export()
+	res = {
+		"numbers" : numbers,
+		"msg" : datas
+	}
+	return jsonify(res)
+
+# 触发一次 Reading 记录
+@app.route('/api/doReading', methods=['POST'])
+def do_Reading():
+	reading = Reading()
+	try:
+		bookName = request.get_json()['bookName']
+		bookPage = request.get_json()['bookPage']
+	except Exception:
+		return jsonify({
+			"msg" : "参数错误"
+		})
+	datas, numbers = reading.habitica_export({
+		"bookName" : bookName,
+		"bookPage" : bookPage,
+	})
 	res = {
 		"numbers" : numbers,
 		"msg" : datas
