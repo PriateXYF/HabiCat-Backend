@@ -13,12 +13,13 @@ from bbdc.api import BBDC
 from forest.api import Forest
 from lc.api import LC
 from reading.api import Reading
+from course.api import Course
 from github.api import GitHub
 app = Flask(__name__, static_url_path='', static_folder='templates', template_folder='templates')
 
 # 开启跨域,用于debug
-from flask_cors import CORS
-CORS(app, supports_credentials=True)
+# from flask_cors import CORS
+# CORS(app, supports_credentials=True)
 
 sockets = Sockets(app)
 
@@ -75,6 +76,16 @@ def get_reading_data():
 	datas = reading.get_lc_data(page)
 	return jsonify(datas)
 
+@app.route('/api/course', methods=['POST'])
+def get_course_data():
+	course = Course()
+	try:
+		page = request.get_json()['page']
+	except Exception:
+		page = 0
+	datas = course.get_lc_data(page)
+	return jsonify(datas)
+
 # 触发一次不背单词更新
 @app.route('/api/doBBDC', methods=['POST'])
 def do_BBDC():
@@ -122,6 +133,29 @@ def do_Reading():
 	datas, numbers = reading.habitica_export({
 		"bookName" : bookName,
 		"bookPage" : bookPage,
+	})
+	res = {
+		"numbers" : numbers,
+		"msg" : datas
+	}
+	return jsonify(res)
+
+# 触发一次 Reading 记录
+@app.route('/api/doCourse', methods=['POST'])
+def do_Course():
+	course = Course()
+	try:
+		courseName = request.get_json()['courseName']
+		courseChapter = request.get_json()['courseChapter']
+		courseSection = request.get_json()['courseSection']
+	except Exception:
+		return jsonify({
+			"msg" : "参数错误"
+		})
+	datas, numbers = course.habitica_export({
+		"courseName" : courseName,
+		"courseChapter" : courseChapter,
+		"courseSection" : courseSection,
 	})
 	res = {
 		"numbers" : numbers,

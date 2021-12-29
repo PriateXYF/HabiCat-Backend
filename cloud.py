@@ -10,6 +10,7 @@ from bbdc import after_BBDC_save as BBDCAfter
 from forest import after_forest_save as ForestAfter
 from github import after_github_save as GitHubAfter
 from reading import after_reading_save as ReadingAfter
+from course import after_course_save as CourseAfter
 
 engine = Engine()
 
@@ -47,3 +48,8 @@ def after_github(_github):
 @engine.after_save('Reading')
 def after_reading(_reading):
 	return ReadingAfter(_reading)
+
+# CourseAfter hook
+@engine.after_save('Course')
+def after_course(_course):
+	return CourseAfter(_course)

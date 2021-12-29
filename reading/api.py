@@ -98,17 +98,20 @@ class Reading(object):
 		latest_lc_data = self.get_latest_lc_data(book_data['bookName'])
 		do_habitica_habit_times = int(book_data['bookPage'] / 20) - int(latest_lc_data['bookPage'] / 20)
 		NewUser = copy.copy(OldUser)
-		res = "你还没有看满20页哦! 快去看书吧！"
-		if do_habitica_habit_times != 0:
+		res = None
+		if do_habitica_habit_times > 5:
+			res = "你读太多书啦！一次不要超过 100 页！上次读到%d页了哦!" % latest_lc_data['bookPage']
+		elif book_data['bookPage'] - latest_lc_data['bookPage'] <= 0:
+			res = "你是不是记错啦！上次已经读到%d页了哦！" % latest_lc_data['bookPage']
+		elif do_habitica_habit_times == 0:
+			res = "数据已计入,再多看点书就能升级啦!"
+			DiffUser = NewUser - OldUser
+			self.set_lc_data(book_data, OldUser, NewUser, DiffUser)
+		else:
 			for time in range(do_habitica_habit_times):
 				NewUser = hc.do_habitica_habit_by_id(self.habit_id)
 			DiffUser = NewUser - OldUser
 			self.set_lc_data(book_data, OldUser, NewUser, DiffUser)
 			common.send_push_plus("你的读书数据已导入 Habitica !", DiffUser.get_diff_info())
 			res = DiffUser.get_diff_info()
-		else if do_habitica_habit_times > 5:
-			res = "你读太多书啦！一次不要超过 100 页哦！"
-		else:
-			DiffUser = NewUser - OldUser
-			self.set_lc_data(book_data, OldUser, NewUser, DiffUser)
 		return res, do_habitica_habit_times
