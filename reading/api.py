@@ -106,6 +106,8 @@ class Reading(object):
 			self.set_lc_data(book_data, OldUser, NewUser, DiffUser)
 			common.send_push_plus("你的读书数据已导入 Habitica !", DiffUser.get_diff_info())
 			res = DiffUser.get_diff_info()
+		else if do_habitica_habit_times > 5:
+			res = "你读太多书啦！一次不要超过 100 页哦！"
 		else:
 			DiffUser = NewUser - OldUser
 			self.set_lc_data(book_data, OldUser, NewUser, DiffUser)

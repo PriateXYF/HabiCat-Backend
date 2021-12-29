@@ -46,4 +46,4 @@ def after_github(_github):
 # Reading hook
 @engine.after_save('Reading')
 def after_reading(_reading):
-	return GitHubAfter(_reading)
+	return ReadingAfter(_reading)
