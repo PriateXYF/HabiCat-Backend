@@ -57,12 +57,9 @@ class BBDC(object):
 	# 获取当天学习数据(包含 learnNum - 背单词数量 reviewNum - 复习数量)
 	def get_today_words_data(self):
 		latest_learn_list = self.get_latest_learn_list()
-		return latest_learn_list[-1]
-	
-	# 获取当天背单词总数(背单词数量 + 复习数量)
-	def get_today_total_words(self):
-		today_words_data = self.get_today_words_data()
-		return today_words_data['learnNum'] + today_words_data['reviewNum']
+		data = latest_learn_list[-1]
+		data['total'] = data['learnNum'] + data['reviewNum']
+		return data
 	
 	# 获取在 leancloud 的最近的学习数据
 	def get_latest_lc_data(self):
@@ -129,33 +126,47 @@ class BBDC(object):
 		today_BBDC.set('oldLearnNum', latest_lc_data['learnNum'])
 		today_BBDC.set('reviewNum', words_data['reviewNum'])
 		today_BBDC.set('oldReviewNum', latest_lc_data['reviewNum'])
-		today_BBDC.set('total', words_data['reviewNum'] + words_data['learnNum'])
-		today_BBDC.set('oldTotal', latest_lc_data['learnNum'] + latest_lc_data['reviewNum'])
+		today_BBDC.set('total', words_data['total'])
+		today_BBDC.set('oldTotal', latest_lc_data['total'])
 		today_BBDC.set('oldUser', OldUser.toJSON())
 		today_BBDC.set('newUser', NewUser.toJSON())
 		today_BBDC.set('diffUser', DiffUser.toJSON())
 		today_BBDC.set('info', DiffUser.get_diff_info())
 		today_BBDC.set('date', now)
 		today_BBDC.save()
+	# 获取今日已背单词与今日已导入单词差异总数量
+	def get_today_total_lc_diff(self):
+		diff = self.get_today_lc_diff()
+		return diff['total']
 	# 获取今日已背单词与今日已导入单词差异数量
 	def get_today_lc_diff(self):
 		latest_lc_data = self.get_latest_lc_data()
-		today_total_words = self.get_today_total_words()
-		diff = 0
+		today_words = self.get_today_words_data()
+		diff = {
+			'learnNum' : 0,
+			'reviewNum' : 0,
+			'total' : 0
+		}
 		# 如果是同一天
 		if common.is_same_day(latest_lc_data['date'], common.get_china_now()):
-			diff = today_total_words - latest_lc_data['total']
+			diff['total'] = today_words['total'] - latest_lc_data['total']
+			diff['learnNum'] = today_words['learnNum'] - latest_lc_data['learnNum']
+			diff['reviewNum'] = today_words['reviewNum'] - latest_lc_data['reviewNum']
 		else:
-			diff = today_total_words
+			diff['total'] = today_words['total']
+			diff['learnNum'] = today_words['learnNum']
+			diff['reviewNum'] = today_words['reviewNum']
 		return diff
-		# latest_lc_total_words
-	# 获取需要进行完成 habit 的次数
-	def get_do_habitica_habit_times(self):
+	def get_word_steps(self):
 		# 点一次习惯的步长
 		word_steps = os.getenv("BBDC_STEPS")
 		if not word_steps:
 			word_steps = 20
-		today_lc_diff = self.get_today_lc_diff()
+		return int(word_steps)
+	# 获取需要进行完成 habit 的次数
+	def get_do_habitica_habit_times(self):
+		word_steps = self.get_word_steps()
+		today_lc_diff = self.get_today_total_lc_diff()
 		return int(today_lc_diff / int(word_steps))
 
 	# 每日导出数据到habitica
@@ -165,7 +176,22 @@ class BBDC(object):
 		do_habitica_habit_times = self.get_do_habitica_habit_times()
 		NewUser = copy.copy(OldUser)
 		res = "你还没有背满应该背的单词哦! 快去背单词吧！"
-		if do_habitica_habit_times != 0:
+		if do_habitica_habit_times > 10:
+			word_steps = self.get_word_steps()
+			for time in range(10):
+				NewUser = hc.do_habitica_habit_by_id(self.habit_id)
+			DiffUser = NewUser - OldUser
+			latest_lc_data = self.get_latest_lc_data()
+			words_data = self.get_today_words_data()
+			# 如果不是同一天
+			if not common.is_same_day(latest_lc_data['date'], common.get_china_now()):
+				words_data['total'] = word_steps * 10
+			else:
+				words_data['total'] = latest_lc_data['total'] + word_steps * 10
+			self.set_lc_data(words_data, OldUser, NewUser, DiffUser)
+			common.send_push_plus("你的不背单词已导入 Habitica !", DiffUser.get_diff_info())
+			res = DiffUser.get_diff_info()
+		elif do_habitica_habit_times > 0:
 			for time in range(do_habitica_habit_times):
 				NewUser = hc.do_habitica_habit_by_id(self.habit_id)
 			DiffUser = NewUser - OldUser
