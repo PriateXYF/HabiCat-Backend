@@ -65,12 +65,13 @@ class GitHub(object):
 		github_json = json.loads(github_res.text)
 		return github_json
 	
-	# 获取在 leancloud 的最近三天的 GitHub 数据
-	def get_latest_lc_data(self, days = 3):
-		now = datetime.utcnow().replace(tzinfo=timezone.utc).astimezone(timezone(timedelta(hours=0))) - timedelta(days=days)
+	# 获取在 leancloud 的最近50条 GitHub 数据
+	def get_latest_lc_data(self, limit = 50):
+		# now = datetime.utcnow().replace(tzinfo=timezone.utc).astimezone(timezone(timedelta(hours=0))) - timedelta(days=days)
 		query = leancloud.Query('GitHub')
 		query.descending('date')
-		query.greater_than_or_equal_to('date', now)
+		# query.greater_than_or_equal_to('date', now)
+		query.limit(limit)
 		lc_list = None
 		try:
 			lc_list = query.find()
