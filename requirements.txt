@@ -5,4 +5,4 @@ Flask-Sockets>=0.1,<1.0
 requests
 pytz
 feedparser
-markupsafe
+markupsafe==2.0.1
