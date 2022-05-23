@@ -63,3 +63,16 @@ def init_course_project():
 	course_lc.set("password", "123456")
 	course_lc.set("path", "course")
 	course_lc.save()
+
+# 初始化 Douban
+def init_douban_project():
+	DoubanLC = leancloud.Object.extend("Projects")
+	douban_lc = DoubanLC()
+	douban_lc.set("category", "移动端")
+	douban_lc.set("habitName", "douban")
+	douban_lc.set("isOpen", True)
+	douban_lc.set("isShow", True)
+	douban_lc.set("name", "豆瓣")
+	douban_lc.set("password", "123456")
+	douban_lc.set("path", "douban")
+	douban_lc.save()

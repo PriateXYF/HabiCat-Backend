@@ -15,11 +15,12 @@ from lc.api import LC
 from reading.api import Reading
 from course.api import Course
 from github.api import GitHub
+from douban.api import Douban
 app = Flask(__name__, static_url_path='', static_folder='templates', template_folder='templates')
 
 # 开启跨域,用于debug
-# from flask_cors import CORS
-# CORS(app, supports_credentials=True)
+from flask_cors import CORS
+CORS(app, supports_credentials=True)
 
 sockets = Sockets(app)
 
@@ -64,6 +65,16 @@ def get_github_data():
 	except Exception:
 		page = 0
 	datas = github.get_lc_data(page)
+	return jsonify(datas)
+
+@app.route('/api/douban', methods=['POST'])
+def get_douban_data():
+	douban = Douban()
+	try:
+		page = request.get_json()['page']
+	except Exception:
+		page = 0
+	datas = douban.get_lc_data(page)
 	return jsonify(datas)
 
 @app.route('/api/reading', methods=['POST'])
@@ -113,6 +124,17 @@ def do_Forest():
 def do_GitHub():
 	github = GitHub()
 	datas, numbers = github.habitica_daily_export()
+	res = {
+		"numbers" : numbers,
+		"msg" : datas
+	}
+	return jsonify(res)
+
+# 触发一次 Douban 更新
+@app.route('/api/doDouban', methods=['POST'])
+def do_Douban():
+	douban = Douban()
+	datas, numbers = douban.habitica_daily_export()
 	res = {
 		"numbers" : numbers,
 		"msg" : datas

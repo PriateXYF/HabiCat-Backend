@@ -26,6 +26,7 @@ class LC(object):
 		self.init_class('Reading')
 		self.init_class('GitHub')
 		self.init_class('Course')
+		self.init_class('Douban')
 	def get_lc_projects(self):
 		query = leancloud.Query('Projects')
 		try:
@@ -84,3 +85,4 @@ class LC(object):
 			projects.init_github_project()
 			projects.init_reading_project()
 			projects.init_course_project()
+			projects.init_douban_project()
