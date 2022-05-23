@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[14],{438:function(e,t,n){"use strict";n.r(t);var r={mounted:function(){this.$message("暂未开放!"),this.$router.push({path:"reload",query:{reload:"page"}})}},o=n(55),component=Object(o.a)(r,(function(){var e=this.$createElement;return(this._self._c||e)("div")}),[],!1,null,null,null);t.default=component.exports}}]);
